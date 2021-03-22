@@ -1,0 +1,8 @@
+[webservers]
+mimaquina
+tomcat[4:50].prod.itnow.es 
+
+
+[databases]
+mysqlserver1.prod
+oracleserver1.prod

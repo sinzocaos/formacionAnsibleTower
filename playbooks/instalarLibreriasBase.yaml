@@ -1,0 +1,51 @@
+- hosts: webservers
+  order: inventory
+  vars: {}
+  gather_facts: True
+  become: True
+  become_method: sudo
+  pre_tasks:
+    - name: Mostrar caracteristicas del host
+      debug:
+        var: ansible_facts
+    - name: Mostrar sistema operativo
+      debug:
+        var: ansible_facts.distribution
+  tasks:
+    - name: comenzar tareas importantes de instalacion
+      debug:
+        msg: comenzando tareas de instalación
+    - name: Instalar Tomcat en Ubuntu
+      block:
+        - name: Actualizar repos del apt
+          apt:
+            update_cache: True
+          become: True
+          become_method: sudo
+        - name: asegurarse que tomcat v.8 queda instalado
+          apt:
+            name: tomcat8
+            state: present
+            
+        - name: dejar el tomcat arrancado
+          systemd: 
+              name: tomcat8
+              state: started
+              enabled: yes
+      when: ansible_facts.distribution == "Ubuntu"        
+      
+    - name: Instalar Tomcat en Redhat
+      block:
+        - name: Actualizar repos del apt
+          yum:
+            update_cache: True
+          become: True
+          become_method: sudo
+        - name: asegurarse que tomcat v.8 queda instalado
+          yum:
+            name: tomcat8
+            state: present
+      when: ansible_facts.distribution == "CentOS"
+      
+  post_tasks: []
+  handlers: []
