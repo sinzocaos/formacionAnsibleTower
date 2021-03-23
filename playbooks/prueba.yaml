@@ -1,4 +1,4 @@
-- hosts: webservers
+- hosts: all
   order: inventory
   vars: {}
   gather_facts: True
