@@ -1,0 +1,10 @@
+- hosts: webservers
+  order: inventory
+  vars: {}
+  gather_facts: True
+  
+  tasks:
+    - name: tarea 1
+      debug:
+        msg: soy la primera tarea en ejecución
+  
